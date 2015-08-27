@@ -8,9 +8,12 @@
 
     <string name="ok">ok</string>
     <string name="cancel">cancel</string>
-    <string name="create_new_exercise">Create New Exercise</string>
+
 
     <string name="username">username</string>
-<string name="password">password</string>
+    <string name="password">password</string>
     <string name="signin">signin</string>
+
+    <string name="create_new_exercise">Create New Exercise</string>
+    <string name="exercise_name">Name</string>
 </resources>
