@@ -61,18 +61,12 @@ implements ExerciseCreationDialog2.NoticeDialogListener  {
 
     public void createNewExercise(View view) {
         Log.d(this.getClass().getName(), "create new Exercise");
-/*
-        // Fragment
-        ExerciseCreationDialog ecd = new ExerciseCreationDialog();
 
-        // The second argument, "missiles", is a unique tag name that the system uses to
-        // save and restore the fragment state when necessary. The tag also allows you to get a
-        // handle to the fragment by calling findFragmentByTag().
-        ecd.show(getSupportFragmentManager(), "create_new_exercise");
-*/
         FragmentManager fragmentManager = getSupportFragmentManager();
         ExerciseCreationDialog2 newFragment = new ExerciseCreationDialog2();
-boolean mIsLargeLayout = true;
+
+        boolean mIsLargeLayout = true;  // false = crash
+
         if (mIsLargeLayout) {
             // The device is using a large layout, so show the fragment as a dialog
             newFragment.show(fragmentManager, "dialog");
@@ -89,59 +83,6 @@ boolean mIsLargeLayout = true;
                     .addToBackStack(null).commit();
         }
 
-
-        //
-        /* build in code
-        //
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        // Add the buttons
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Log.d("asdfasdf", String.valueOf(id));
-            }
-        });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User cancelled the dialog
-            }
-        });
-        // Set other dialog properties
-
-
-        // Create the AlertDialog
-        AlertDialog dialog = builder.create();
-
-        dialog.show();
-        */
-
-        /*
-        //
-        // build from resource file
-        //
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        // Get the layout inflater
-        LayoutInflater inflater = this.getLayoutInflater();
-
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
-        builder.setView(inflater.inflate(R.layout.dialog_signin, null))
-                // Add action buttons
-                .setPositiveButton(R.string.signin, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        // sign in the user ...
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        ;//LoginDialogFragment.this.getDialog().cancel();
-                    }
-                });
-        AlertDialog dialog =  builder.create();
-        dialog.show();
-*/
     } // createNewExercise
 
     @Override
