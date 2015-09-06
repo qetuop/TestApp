@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class ExerciseSelection extends FragmentActivity
@@ -86,12 +87,16 @@ implements ExerciseCreationDialog2.NoticeDialogListener  {
     } // createNewExercise
 
     @Override
-    public void onDialogPositiveClick(android.support.v4.app.DialogFragment dialog) {
-        Log.d(this.getClass().getName(), "onDialogPositiveClick");
+    public void onDialogPositiveClick(Exercise exercise) {
+        Log.d(this.getClass().getName(), "onDialogPositiveClick" + " " + exercise.getExerciseName());
+
+
+
+        Toast.makeText(this, exercise.getExerciseName(), Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void onDialogNegativeClick(android.support.v4.app.DialogFragment dialog) {
+    public void onDialogNegativeClick() {
         Log.d(this.getClass().getName(), "onDialogNegativeClick");
     }
 }

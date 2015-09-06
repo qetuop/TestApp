@@ -11,8 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import static android.widget.Toast.makeText;
 
 /**
  * Created by Brian on 8/23/2015.
@@ -21,14 +27,22 @@ public class ExerciseCreationDialog2 extends DialogFragment  implements OnClickL
 
     private Button btnOk;
     private Button btnCancel;
+    public EditText etName;
 
     // Use this instance of the interface to deliver action events
     private NoticeDialogListener mListener;
 
     public interface NoticeDialogListener {
-        public void onDialogPositiveClick(DialogFragment dialog);
-        public void onDialogNegativeClick(DialogFragment dialog);
+        public void onDialogPositiveClick(Exercise exercise);
+        public void onDialogNegativeClick();
     }
+
+    // The default constructor is called when the fragment manager re-creates a fragment
+    // --> don't override it?
+    public ExerciseCreationDialog2() {
+        // Empty constructor required for DialogFragment
+    }
+
 
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
     @Override
@@ -77,8 +91,18 @@ public class ExerciseCreationDialog2 extends DialogFragment  implements OnClickL
         //
         btnOk = (Button) v.findViewById(R.id.newExerciseOK);
         btnOk.setOnClickListener(this);
+
         btnCancel = (Button) v.findViewById(R.id.newExerciseCancel);
         btnCancel.setOnClickListener(this);
+
+        etName = (EditText) v.findViewById(R.id.newExerciseName);
+
+        // Show soft keyboard automatically
+        etName.requestFocus();
+        getDialog().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        //etName.setOnEditorActionListener(this); implements OnEditorActionListener
+
 
         return v;
 
@@ -97,16 +121,24 @@ public class ExerciseCreationDialog2 extends DialogFragment  implements OnClickL
 
         switch (v.getId()) {
             case R.id.newExerciseOK:
+
+                // get the data newExerciseName
+                String name = etName.getText().toString();
+                Exercise exercise = new Exercise();
+
                 // validate entry
 
                 // create Exercise Object
 
+                Toast.makeText(this.getActivity(),"hi",Toast.LENGTH_LONG).show();
+
                 // return object
-                mListener.onDialogPositiveClick(ExerciseCreationDialog2.this);
+                mListener.onDialogPositiveClick(exercise);
                 break;
 
             case R.id.newExerciseCancel:
-                mListener.onDialogNegativeClick(ExerciseCreationDialog2.this);
+                mListener.onDialogNegativeClick();
+                this.dismiss();
                 break;
 //            case R.id.button_three:
 //                // i'm lazy, do nothing

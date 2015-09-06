@@ -75,7 +75,7 @@ public class ExercisesDataSource {
     private Exercise cursorToExercise(Cursor cursor) {
         Exercise Exercise = new Exercise();
         Exercise.setId(cursor.getLong(0));
-        Exercise.setExercise(cursor.getString(1));
+        Exercise.setExerciseName(cursor.getString(1));
         return Exercise;
     }
     

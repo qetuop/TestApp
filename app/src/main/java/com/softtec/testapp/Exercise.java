@@ -5,7 +5,14 @@ package com.softtec.testapp;
  */
 public class Exercise {
     private long id;
-    private String exercise;
+    private String exerciseName;
+
+    public Exercise() {
+    }
+
+    public Exercise(String name) {
+        setExerciseName(name);
+    }
 
     public long getId() {
         return id;
@@ -15,17 +22,17 @@ public class Exercise {
         this.id = id;
     }
 
-    public String getExerciset() {
-        return exercise;
+    public String getExerciseName() {
+        return exerciseName;
     }
 
-    public void setExercise(String exercise) {
-        this.exercise = exercise;
+    public void setExerciseName(String exerciseName) {
+        this.exerciseName = exerciseName;
     }
 
     // Will be used by the ArrayAdapter in the ListView
     @Override
     public String toString() {
-        return exercise;
+        return exerciseName;
     }
 }
