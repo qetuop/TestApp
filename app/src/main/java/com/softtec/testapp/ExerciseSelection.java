@@ -1,26 +1,18 @@
 package com.softtec.testapp;
 
-import android.app.AlertDialog;
-import android.app.DialogFragment;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class ExerciseSelection extends FragmentActivity
-implements ExerciseCreationDialog2.NoticeDialogListener  {
+implements ExerciseCreationDialog.NoticeDialogListener  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +56,7 @@ implements ExerciseCreationDialog2.NoticeDialogListener  {
         Log.d(this.getClass().getName(), "create new Exercise");
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        ExerciseCreationDialog2 newFragment = new ExerciseCreationDialog2();
+        ExerciseCreationDialog newFragment = new ExerciseCreationDialog();
 
         boolean mIsLargeLayout = true;  // false = crash
 
