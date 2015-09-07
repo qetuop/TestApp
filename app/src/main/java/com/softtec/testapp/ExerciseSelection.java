@@ -10,9 +10,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.List;
+
 
 public class ExerciseSelection extends FragmentActivity
-implements ExerciseCreationDialog.NoticeDialogListener  {
+                                implements ExerciseCreationDialog.NoticeDialogListener  {
+
+    private ExercisesDataSource exercisesDataSource;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,9 @@ implements ExerciseCreationDialog.NoticeDialogListener  {
         textView.setText(message);
         setContentView(textView);
         */
+
+        exercisesDataSource = new ExercisesDataSource(this);
+        exercisesDataSource.open();
     }
 
     @Override
@@ -82,6 +90,13 @@ implements ExerciseCreationDialog.NoticeDialogListener  {
     public void onDialogPositiveClick(Exercise exercise) {
         Log.d(this.getClass().getName(), "onDialogPositiveClick" + " " + exercise.getExerciseName());
 
+        // add exercise to DB
+        exercisesDataSource.createExercise(exercise);
+
+        List<Exercise> Exercises = exercisesDataSource.getAllExercises();
+        for (Exercise e: Exercises) {
+            Log.d(this.getLocalClassName(), e.getExerciseName());
+        }
 
 
         Toast.makeText(this, exercise.getExerciseName(), Toast.LENGTH_LONG).show();

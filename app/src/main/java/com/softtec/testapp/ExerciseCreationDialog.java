@@ -12,11 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import static android.widget.Toast.makeText;
 
@@ -27,7 +31,8 @@ public class ExerciseCreationDialog extends DialogFragment  implements OnClickLi
 
     private Button btnOk;
     private Button btnCancel;
-    public EditText etName;
+    private EditText etName;
+    private ListView lvType;
 
     // Use this instance of the interface to deliver action events
     private NoticeDialogListener mListener;
@@ -86,7 +91,7 @@ public class ExerciseCreationDialog extends DialogFragment  implements OnClickLi
         // Inflate the layout to use as dialog or embedded fragment
         View v = inflater.inflate(R.layout.exercise_creation, container, false);
 
-        getDialog().setTitle("Set Your Name");
+        getDialog().setTitle("Create New Exercise");
 
         //
         btnOk = (Button) v.findViewById(R.id.newExerciseOK);
@@ -104,6 +109,33 @@ public class ExerciseCreationDialog extends DialogFragment  implements OnClickLi
         //etName.setOnEditorActionListener(this); implements OnEditorActionListener
 
 
+        // Get ListView object from xml
+        ListView listView = (ListView) v.findViewById(R.id.newExerciseType);
+
+        // Defined Array values to show in ListView
+        String[] values = new String[] {
+                "None",
+                "-----Separator---",
+                "Chest",
+                "Tricep",
+                "Bicep",
+                "Back",
+                "Shoulder",
+                "Legs",
+                "Other"
+        };
+
+        // Define a new Adapter
+        // First parameter - Context
+        // Second parameter - Layout for the row
+        // Third parameter - ID of the TextView to which the data is written
+        // Forth - the Array of data
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_checked, android.R.id.text1, values);
+
+
+        // Assign adapter to ListView
+        listView.setAdapter(adapter);
         return v;
 
     }
@@ -131,6 +163,7 @@ public class ExerciseCreationDialog extends DialogFragment  implements OnClickLi
                 // get the data newExerciseName
                 String name = etName.getText().toString();
                 Exercise exercise = new Exercise();
+                exercise.setExerciseName(name);
 
                 // validate entry
 

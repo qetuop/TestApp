@@ -19,7 +19,7 @@ public class ExercisesDataSource {
     private SQLiteDatabase database;
     private ExercisesSQLiteHelper dbHelper;
     private String[] allColumns = { ExercisesSQLiteHelper.COLUMN_ID,
-            ExercisesSQLiteHelper.COLUMN_EXERCISE };
+            ExercisesSQLiteHelper.COLUMN_EXERCISE_NAME };
 
     public ExercisesDataSource(Context context) {
         dbHelper = new ExercisesSQLiteHelper(context);
@@ -35,7 +35,22 @@ public class ExercisesDataSource {
 
     public Exercise createExercise(String exercise) {
         ContentValues values = new ContentValues();
-        values.put(ExercisesSQLiteHelper.COLUMN_EXERCISE, exercise);
+        values.put(ExercisesSQLiteHelper.COLUMN_EXERCISE_NAME, exercise);
+
+        long insertId = database.insert(ExercisesSQLiteHelper.TABLE_EXERCISES, null, values);
+        Cursor cursor = database.query(ExercisesSQLiteHelper.TABLE_EXERCISES,
+                allColumns, ExercisesSQLiteHelper.COLUMN_ID + " = " + insertId, null,
+                null, null, null);
+
+        cursor.moveToFirst();
+        Exercise newExercise = cursorToExercise(cursor);
+        cursor.close();
+        return newExercise;
+    }
+
+    public Exercise createExercise(Exercise exercise) {
+        ContentValues values = new ContentValues();
+        values.put(ExercisesSQLiteHelper.COLUMN_EXERCISE_NAME, exercise.getExerciseName());
 
         long insertId = database.insert(ExercisesSQLiteHelper.TABLE_EXERCISES, null, values);
         Cursor cursor = database.query(ExercisesSQLiteHelper.TABLE_EXERCISES,
