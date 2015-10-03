@@ -93,6 +93,12 @@ public class ExercisesDataSource {
         Exercise.setExerciseName(cursor.getString(1));
         return Exercise;
     }
+
+    public void clear() {
+        for ( Exercise exercise : getAllExercises() ) {
+            deleteExercise(exercise);
+        }
+    }
     
 }
 

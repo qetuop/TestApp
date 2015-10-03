@@ -11,7 +11,19 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="create new exercise"
+        android:text="@string/select_exercise_create_new_exercise"
         android:id="@+id/button14"
         android:onClick="createNewExercise" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/exerciseSelectionListView"
+            android:background="@color/background_material_dark"
+            android:clickable="true" />
+    </RelativeLayout>
 </LinearLayout>

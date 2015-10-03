@@ -11,7 +11,7 @@
 
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="407dp"
         android:id="@+id/newExerciseType"
         android:footerDividersEnabled="false" />
 

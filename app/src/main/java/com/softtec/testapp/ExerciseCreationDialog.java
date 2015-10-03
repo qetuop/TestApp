@@ -105,7 +105,7 @@ public class ExerciseCreationDialog extends DialogFragment  implements OnClickLi
 
         // Show soft keyboard automatically
         //etName.requestFocus();
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        //getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         //etName.setOnEditorActionListener(this); implements OnEditorActionListener
 
 
@@ -115,14 +115,14 @@ public class ExerciseCreationDialog extends DialogFragment  implements OnClickLi
         // Defined Array values to show in ListView
         String[] values = new String[] {
                 "None",
-                "-----Separator---",
+                //"-----Separator---",
                 "Chest",
-                "Tricep",
+             /*   "Tricep",
                 "Bicep",
                 "Back",
                 "Shoulder",
                 "Legs",
-                "Other"
+                "Other"*/
         };
 
         // Define a new Adapter
@@ -169,7 +169,7 @@ public class ExerciseCreationDialog extends DialogFragment  implements OnClickLi
 
                 // create Exercise Object
 
-                Toast.makeText(this.getActivity(),"hi",Toast.LENGTH_LONG).show();
+                //Toast.makeText(this.getActivity(),"hi",Toast.LENGTH_LONG).show();
 
                 // return object
                 mListener.onDialogPositiveClick(exercise);

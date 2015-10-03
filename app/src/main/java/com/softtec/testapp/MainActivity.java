@@ -15,9 +15,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.setTitle("Spot-U-2000");
+
         setContentView(R.layout.activity_main);
-        Log.d("asdf","a1234sdf");
-    }
+     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
