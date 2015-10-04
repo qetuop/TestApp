@@ -18,8 +18,11 @@ public class ExercisesDataSource {
     // Database fields
     private SQLiteDatabase database;
     private ExercisesSQLiteHelper dbHelper;
-    private String[] allColumns = { ExercisesSQLiteHelper.COLUMN_ID,
-            ExercisesSQLiteHelper.COLUMN_EXERCISE_NAME };
+    private String[] allColumns = {
+            ExercisesSQLiteHelper.COLUMN_ID,
+            ExercisesSQLiteHelper.COLUMN_EXERCISE_NAME,
+            ExercisesSQLiteHelper.COLUMN_EXERCISE_TYPE
+    };
 
     public ExercisesDataSource(Context context) {
         dbHelper = new ExercisesSQLiteHelper(context);
@@ -33,29 +36,16 @@ public class ExercisesDataSource {
         dbHelper.close();
     }
 
-    public Exercise createExercise(String exercise) {
-        ContentValues values = new ContentValues();
-        values.put(ExercisesSQLiteHelper.COLUMN_EXERCISE_NAME, exercise);
-
-        long insertId = database.insert(ExercisesSQLiteHelper.TABLE_EXERCISES, null, values);
-        Cursor cursor = database.query(ExercisesSQLiteHelper.TABLE_EXERCISES,
-                allColumns, ExercisesSQLiteHelper.COLUMN_ID + " = " + insertId, null,
-                null, null, null);
-
-        cursor.moveToFirst();
-        Exercise newExercise = cursorToExercise(cursor);
-        cursor.close();
-        return newExercise;
-    }
-
     public Exercise createExercise(Exercise exercise) {
         ContentValues values = new ContentValues();
         values.put(ExercisesSQLiteHelper.COLUMN_EXERCISE_NAME, exercise.getExerciseName());
+        values.put(ExercisesSQLiteHelper.COLUMN_EXERCISE_TYPE, exercise.getExerciseType());
 
         long insertId = database.insert(ExercisesSQLiteHelper.TABLE_EXERCISES, null, values);
         Cursor cursor = database.query(ExercisesSQLiteHelper.TABLE_EXERCISES,
-                allColumns, ExercisesSQLiteHelper.COLUMN_ID + " = " + insertId, null,
-                null, null, null);
+                allColumns,
+                ExercisesSQLiteHelper.COLUMN_ID + " = " + insertId,
+                null, null, null, null);
 
         cursor.moveToFirst();
         Exercise newExercise = cursorToExercise(cursor);
@@ -87,18 +77,21 @@ public class ExercisesDataSource {
         return Exercises;
     }
 
+    // ?convert a "ptr/cursor" of a table entry to an Exercise Object
     private Exercise cursorToExercise(Cursor cursor) {
         Exercise Exercise = new Exercise();
         Exercise.setId(cursor.getLong(0));
         Exercise.setExerciseName(cursor.getString(1));
+        Exercise.setExerciseType(cursor.getString(2));
+
         return Exercise;
     }
 
     public void clear() {
-        for ( Exercise exercise : getAllExercises() ) {
+        for (Exercise exercise : getAllExercises()) {
             deleteExercise(exercise);
         }
     }
-    
+
 }
 

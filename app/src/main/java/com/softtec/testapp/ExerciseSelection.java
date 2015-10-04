@@ -41,7 +41,7 @@ public class ExerciseSelection extends FragmentActivity
 
         mExercisesDataSource = new ExercisesDataSource(this);
         mExercisesDataSource.open();
-        //mExercisesDataSource.clear(); // TODO: remove this
+//        mExercisesDataSource.clear(); // TODO: remove this
 
         mExerciseArrayList = (ArrayList) mExercisesDataSource.getAllExercises();
         mExerciseAdapter = new ExerciseAdapter(this, mExerciseArrayList);

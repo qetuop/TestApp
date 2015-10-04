@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.app.AlertDialog;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static android.widget.Toast.makeText;
@@ -32,7 +35,10 @@ public class ExerciseCreationDialog extends DialogFragment  implements OnClickLi
     private Button btnOk;
     private Button btnCancel;
     private EditText etName;
-    private ListView lvType;
+
+    private ListView mTypeListView;
+    private ArrayList<String> mTypeArrayList;
+    private ArrayAdapter<String> mTypeArrayAdapter;
 
     // Use this instance of the interface to deliver action events
     private NoticeDialogListener mListener;
@@ -110,20 +116,23 @@ public class ExerciseCreationDialog extends DialogFragment  implements OnClickLi
 
 
         // Get ListView object from xml
-        ListView listView = (ListView) v.findViewById(R.id.newExerciseType);
+        mTypeListView = (ListView) v.findViewById(R.id.newExerciseType);
+        mTypeListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
         // Defined Array values to show in ListView
+        // "None",
+        // "--------",
+        // TODO: add these to ?sql?, allow user to define them?
         String[] values = new String[] {
-                "None",
-                //"-----Separator---",
                 "Chest",
-             /*   "Tricep",
+                "Tricep",
                 "Bicep",
                 "Back",
                 "Shoulder",
                 "Legs",
-                "Other"*/
+                "Other"
         };
+        mTypeArrayList = new ArrayList<String>(Arrays.asList(values));
 
         // Define a new Adapter
         // First parameter - Context
@@ -131,11 +140,15 @@ public class ExerciseCreationDialog extends DialogFragment  implements OnClickLi
         // Third parameter - ID of the TextView to which the data is written
         // Forth - the Array of data
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_checked, android.R.id.text1, values);
+        mTypeArrayAdapter = new ArrayAdapter<String>(
+                this.getActivity(),
+                android.R.layout.select_dialog_singlechoice,
+                android.R.id.text1,
+                mTypeArrayList);
 
 
         // Assign adapter to ListView
-        listView.setAdapter(adapter);
+        mTypeListView.setAdapter(mTypeArrayAdapter);
         return v;
 
     }
@@ -164,6 +177,29 @@ public class ExerciseCreationDialog extends DialogFragment  implements OnClickLi
                 String name = etName.getText().toString();
                 Exercise exercise = new Exercise();
                 exercise.setExerciseName(name);
+
+                // TODO: for now take only one selection, future = multiple
+                SparseBooleanArray checked = mTypeListView.getCheckedItemPositions();
+                ArrayList<String> selectedItems = new ArrayList<String>();
+                for (int i = 0; i < checked.size(); i++) {
+                    // Item position in adapter
+                    int position = checked.keyAt(i);
+                    // Add sport if it is checked i.e.) == TRUE!
+                    if (checked.valueAt(i))
+                        selectedItems.add(mTypeArrayAdapter.getItem(position));
+                }
+
+                String[] outputStrArr = new String[selectedItems.size()];
+
+                for (int i = 0; i < selectedItems.size(); i++) {
+                    outputStrArr[i] = selectedItems.get(i);
+                    Log.d("mine", outputStrArr[i]);
+                    String type = outputStrArr[i];
+                    exercise.setExerciseType(type);
+                }
+
+
+
 
                 // validate entry
 
