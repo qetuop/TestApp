@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,10 +23,10 @@ public class ExerciseSelection extends FragmentActivity
 
     private ExercisesDataSource mExercisesDataSource;
     private ArrayList<Exercise> mExerciseArrayList;
-    ExerciseAdapter mExerciseAdapter;
+    private ExerciseAdapter mExerciseAdapter;
     private ListView mListView;
 
-    //private String mExerciseType; // passed in exercise type
+    private String mExerciseType =  "None"; // passed in exercise type - use enum, arraylist, ??
 
 
     @Override
@@ -35,13 +36,17 @@ public class ExerciseSelection extends FragmentActivity
         //this.setTitle("Select Exercise Type");
 
         setContentView(R.layout.activity_exercise_selection);
+        String message = mExerciseType;
 
         Intent intent = getIntent();
-        String message = intent.getStringExtra(ExerciseTypeSelection.EXTRA_MESSAGE);
+        if ( intent.hasExtra(ExerciseTypeSelection.EXTRA_MESSAGE) == true )
+            message = intent.getStringExtra(ExerciseTypeSelection.EXTRA_MESSAGE);
 
         mExercisesDataSource = new ExercisesDataSource(this);
         mExercisesDataSource.open();
 //        mExercisesDataSource.clear(); // TODO: remove this
+
+        // TODO: filter exercises based on Type passed in
 
         mExerciseArrayList = (ArrayList) mExercisesDataSource.getAllExercises();
         mExerciseAdapter = new ExerciseAdapter(this, mExerciseArrayList);
@@ -108,7 +113,6 @@ public class ExerciseSelection extends FragmentActivity
 
         Toast.makeText(this, exercise.getExerciseName() + " Created", Toast.LENGTH_LONG).show();
 
-
         updateList(exercise);
     }
 
@@ -130,6 +134,37 @@ public class ExerciseSelection extends FragmentActivity
     @Override
     public void onDialogNegativeClick() {
         Log.d(this.getClass().getName(), "onDialogNegativeClick");
+    }
+
+    @Override
+    public void finish() {
+
+        Intent intent = new Intent(this,ExerciseTypeSelection.class);
+
+        ArrayList<Exercise> selectedItems = new ArrayList<Exercise>();
+        for (Exercise exercise : mExerciseArrayList) {
+            if (exercise.isSelected())
+                selectedItems.add(exercise);
+        }
+
+        Log.d("mine", "finish, " + String.valueOf(selectedItems == null) + ", " + String.valueOf(selectedItems.size()));
+
+        intent.putExtra("exerciseList", selectedItems);
+
+        // Prepare data intent
+//        ExerciseWrapper ew = new ExerciseWrapper(selectedItems);
+//        Log.d("mine", "finish ew, " + ew.getItemDetails().get(0).getExerciseName());
+//        intent.putExtra("exerciseList", ew);
+
+//        Bundle mBundle = new Bundle();
+//        mBundle.putSerializable("exerciseList",selectedItems);
+//        intent.putExtras(mBundle);
+
+        //intent.putExtra("exerciseName", selectedItems.get(0).getExerciseName());
+
+        // Activity finished ok, return the data
+        setResult(RESULT_OK, intent);
+        super.finish();
     }
 
 } // ExerciseSelection

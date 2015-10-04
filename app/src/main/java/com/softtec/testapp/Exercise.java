@@ -1,9 +1,11 @@
 package com.softtec.testapp;
 
+import java.io.Serializable;
+
 /**
  * Created by Brian on 8/13/2015.
  */
-public class Exercise {
+public class Exercise implements Serializable {
     private long id = 0;
     private String exerciseName = null;
     private String exerciseType = null; // TODO: change to array
